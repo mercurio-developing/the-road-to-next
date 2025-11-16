@@ -1,6 +1,6 @@
-import { Ticket } from "@/features/ticket/types";
 import { TicketItem } from "@/features/ticket/components/ticket-item";
 import { getTickets } from "@/features/ticket/queries/get-tickets";
+import { Ticket } from ".prisma/client";
 
 const TicketList = async () => {
   const tickets = await getTickets();
