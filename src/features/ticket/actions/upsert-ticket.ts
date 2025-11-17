@@ -3,22 +3,42 @@
 import { prisma } from "@/lib/prisma";
 import { ticketsPath } from "@/app/paths";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import {
+  ActionState,
+  fromErrorToActionState,
+} from "@/components/form/to-action-state";
 
-export const upsertTicket = async (id: string | undefined, formData: FormData) => {
-  const data = {
-    title: formData.get("title") as string,
-    content: formData.get("content") as string,
-  };
+const upserTicketSchema = z.object({
+  title: z.string().min(1).max(191),
+  content: z.string().min(1).max(1024),
+});
 
-  await prisma.ticket.upsert({
-    where:{id:id || ""},
-    update:data,
-    create:data
-  })
+export const upsertTicket = async (
+  id: string | undefined,
+  _actionState: ActionState,
+  formData: FormData,
+) => {
+  try {
+    const data = upserTicketSchema.parse({
+      title: formData.get("title") as string,
+      content: formData.get("content") as string,
+    });
+
+    await prisma.ticket.upsert({
+      where: { id: id || "" },
+      update: data,
+      create: data,
+    });
+  } catch (error) {
+    return fromErrorToActionState(error, formData);
+  }
 
   revalidatePath(ticketsPath());
-  if (id){
+  if (id) {
     redirect(ticketsPath());
   }
+
+  return { message: "Ticket created", fieldErrors: {},payload:undefined };
 };
