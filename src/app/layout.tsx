@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from  "@/components/ui/sonner"
+import RootTemplate from "@/app/tickets/[ticketId]/template";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"]
@@ -36,9 +37,10 @@ export default function RootLayout({
         overflow-y-auto overflow-x-hidden
         py-24 px-8
         bg-secondary/20
-        flex flex-co
+        flex flex-col
       ">
-      {children}</main>
+      <RootTemplate>{children}</RootTemplate>
+    </main>
       <Toaster expand/>
     </ThemeProvider>
     </body>
