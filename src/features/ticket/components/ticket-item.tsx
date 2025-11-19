@@ -1,17 +1,23 @@
 import Link from "next/link";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { ticketEditPath, ticketPath } from "@/app/paths";
 import { TICKET_ICONS } from "../constants";
 import {
+  LucideMoreVertical,
   LucidePencil,
   LucideSquareArrowOutUpRight,
-  LucideTrash,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clsx } from "clsx";
 import { Ticket } from ".prisma/client";
-import { deleteTicket } from "@/features/ticket/actions/delete-ticket";
-import { fromCent, toCurrencyFromCent } from "@/utils/currency";
+import { toCurrencyFromCent } from "@/utils/currency";
+import { TicketMoreMenu } from "@/features/ticket/components/ticket-more-menu";
 
 type TicketItemProps = {
   ticket: Ticket;
@@ -35,12 +41,15 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
     </Button>
   );
 
-  const deleteButton = (
-    <form action={deleteTicket.bind(null, ticket.id)}>
-      <Button variant="outline" size="icon">
-        <LucideTrash className="h-4 w-4" />
-      </Button>
-    </form>
+  const moreMenu = (
+    <TicketMoreMenu
+      ticket={ticket}
+      trigger={
+        <Button size="icon" variant="outline">
+          <LucideMoreVertical className="h-4 w-4" />
+        </Button>
+      }
+    />
   );
 
   return (
@@ -68,14 +77,16 @@ const TicketItem = ({ ticket, isDetail }: TicketItemProps) => {
         </CardContent>
         <CardFooter className="flex justify-between">
           <p className="text-sm text-muted-foreground">{ticket.deadline}</p>
-          <p className="text-sm text-muted-foreground">{toCurrencyFromCent(ticket.bounty)}</p>
+          <p className="text-sm text-muted-foreground">
+            {toCurrencyFromCent(ticket.bounty)}
+          </p>
         </CardFooter>
       </Card>
       <div className="flex flex-col gap-y-1">
         {isDetail ? (
           <>
-            {deleteButton}
             {editButton}
+            {moreMenu}
           </>
         ) : (
           <>
