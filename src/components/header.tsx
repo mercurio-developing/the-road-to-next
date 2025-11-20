@@ -1,11 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import { homePath, signInPath, signUpPath, ticketsPath } from "@/app/paths";
 import { buttonVariants } from "@/components/ui/button";
-import { LucideKanban } from "lucide-react";
+import { LucideKanban, LucideLogOut } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
+import { SubmitButton } from "@/components/form/submit-button";
+import { signOut } from "@/features/auth/actions/sign-out";
+import { useAuth } from "@/features/hooks/use-auth";
 
 const Header = () => {
-  const navItems = (
+  const { user, isFetched } = useAuth();
+
+  if (!isFetched) {
+    return null;
+  }
+
+  const navItems = user ? (
     <>
       <ThemeSwitcher />
       <Link
@@ -14,6 +25,13 @@ const Header = () => {
       >
         Tickets
       </Link>
+      <form action={signOut}>
+        <SubmitButton label="Sign out" icon={<LucideLogOut />} />
+      </form>
+    </>
+  ) : (
+    <>
+      <ThemeSwitcher />
       <Link
         href={signUpPath()}
         className={buttonVariants({ variant: "outline" })}
@@ -32,6 +50,7 @@ const Header = () => {
   return (
     <nav
       className="
+        animate-header-from-top
         supports-backdrop-blur:bg-background/60
         fixed left-0 right-0 top-0 z-20
         border-b bg-background/95 backdrop-blur
