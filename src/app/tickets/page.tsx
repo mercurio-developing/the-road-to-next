@@ -4,12 +4,15 @@ import { TicketList } from "@/features/ticket/components/ticket-list";
 import { Spinner } from "@/components/spinner";
 import { CardCompact } from "@/components/card-compact";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
+import { getAuth } from "@/features/auth/queries/get-auth";
+import { redirect } from "next/navigation";
+import { signInPath } from "@/app/paths";
 
 const TicketsPage = async () => {
   return (
     <>
       <div className="flex-1 flex flex-col gap-y-8">
-        <Heading title="Tickets" description="All your tickets at one place" />
+        <Heading title="My Tickets" description="All your tickets at one place" />
         <CardCompact
           classname="w-full max-w-[420px] self-center"
           title="Create Ticket"
