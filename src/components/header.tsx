@@ -8,6 +8,7 @@ import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { SubmitButton } from "@/components/form/submit-button";
 import { signOut } from "@/features/auth/actions/sign-out";
 import { useAuth } from "@/features/hooks/use-auth";
+import { AccountDropdown } from "@/components/account-dropdown";
 
 const Header = () => {
   const { user, isFetched } = useAuth();
@@ -17,9 +18,8 @@ const Header = () => {
   }
 
   const navItems = user ? (
-      <form action={signOut}>
-        <SubmitButton label="Sign out" icon={<LucideLogOut />} />
-      </form>
+
+    <AccountDropdown user={user}/>
   ) : (
     <>
       <Link

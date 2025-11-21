@@ -1,48 +1,73 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { navItems } from "@/components/sidebar/constants";
 import { SideBarItem } from "@/components/sidebar/components/sidebar-item";
 import { useAuth } from "@/features/hooks/use-auth";
+import { usePathname } from "next/navigation";
+import { getActivePath } from "@/utils/get-active-path";
+import { signInPath, signUpPath } from "@/app/paths";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarMenu,
+  useSidebar,
+} from "@/components/ui/sidebar";
 
 const SideBar = () => {
   const { user, isFetched } = useAuth();
 
-  const [isTransition, setTransition] = useState(false);
-  const [isOpen, setOpen] = useState(false);
+  const pathName = usePathname();
+  const { activeIndex } = getActivePath(
+    pathName,
+    navItems.map((item) => item.href),
+    [signInPath(), signUpPath()],
+  );
 
-  const handleToogle = (open: boolean) => {
-    setTransition(true);
-    setOpen(open);
-    setTimeout(() => setTransition(false), 200);
-  };
+  const [isTransition, setTransition] = useState(false);
+  const { open, setOpen, toggleSidebar } = useSidebar();
+
+
+  useEffect(() => {
+    const handleToogle = async () => {
+      setTransition(true);
+      setOpen(false);
+      setTimeout(() => setTransition(false), 200);
+    };
+    handleToogle();
+  }, []);
 
   if (!user || !isFetched) {
-    return <div className="w-[78px] bg-secondary/20 absolute" />;
+    return null;
   }
 
   return (
-    <nav
+    <Sidebar
+      collapsible="icon"
       className={cn(
-        "animate-sidebar-from-left h-screen border-r pt-24 absolute peer",
+        "animate-sidebar-from-left h-screen border-r mt-14",
         isTransition && "duration-150",
-        isOpen ? "md:w-60 w-[78px]" : "w-[78px]",
       )}
-      onMouseEnter={() => handleToogle(true)}
-      onMouseLeave={() => handleToogle(false)}
     >
-      <div className="px-3 py-2">
-        <nav className="space-y-2">
-          {navItems.map((navItem) => (
-            <SideBarItem
-              key={navItem.title}
-              isOpen={isOpen}
-              navItem={navItem}
-            />
-          ))}
-        </nav>
-      </div>
-    </nav>
+      <SidebarContent
+        onMouseEnter={() => !open && toggleSidebar()}
+        onMouseLeave={() => open && toggleSidebar()}
+      >
+        <SidebarGroup>
+          <SidebarMenu>
+            {navItems.map((navItem, index) => (
+              <SideBarItem
+                key={navItem.title}
+                isOpen={open}
+                isActive={activeIndex == index}
+                navItem={navItem}
+              />
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 };
 export { SideBar };

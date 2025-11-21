@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { SideBar } from "@/components/sidebar/components/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,24 +34,20 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <Header />
-        <div className="flex h-screen overflow-hidden border-collapse items-center">
-            <SideBar/>
-            <main
-              className="
-                duration-150
-                pl-[78px]
-                peer-hover:pl-[240px]
-                min-h-screen flex-1
-                overflow-y-auto overflow-x-hidden
+          <main
+            className="
+                flex-1
                 py-24 px-8
                 bg-secondary/20
                 flex flex-col
+                items-center
               "
-            >
+          >
+            <SidebarProvider>
+              <SideBar />
               {children}
-            </main>
-          </div>
-
+            </SidebarProvider>
+          </main>
           <Toaster expand />
         </ThemeProvider>
       </body>
