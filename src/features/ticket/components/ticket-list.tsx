@@ -4,6 +4,7 @@ import { Placeholder } from "@/components/placeholder";
 import { ParsedSearchParams } from "@/features/ticket/search-params";
 import { TicketSearchInput } from "@/features/ticket/components/ticket-search-input";
 import { TicketSortSelect } from "@/features/ticket/components/ticket-sort-select";
+import { TicketPagination } from "@/features/ticket/components/ticket-pagination";
 
 type TicketListProps = {
   userId?: string;
@@ -11,7 +12,7 @@ type TicketListProps = {
 };
 
 const TicketList = async ({ userId, searchParams }: TicketListProps) => {
-  const tickets = await getTickets(userId, searchParams);
+  const {list:tickets ,metadata:ticketMetadata} = await getTickets(userId, searchParams);
   return (
     <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
       <div className="flex gap-x-2 w-full max-w-[420px]">
@@ -29,7 +30,12 @@ const TicketList = async ({ userId, searchParams }: TicketListProps) => {
       ) : (
         <Placeholder label="No tickets found" />
       )}
+
+        <div className="w-full max-w-[420px]">
+          <TicketPagination paginatedTicketMetadata={ticketMetadata}/>
+        </div>
     </div>
+
   );
 };
 export { TicketList };

@@ -1,8 +1,12 @@
 "use client";
 
 import { SearchInput } from "@/components/search-input";
-import { useQueryState } from "nuqs";
-import { searchParser } from "@/features/ticket/search-params";
+import { useQueryState, useQueryStates } from "nuqs";
+import {
+  paginationOptions,
+  paginationParser,
+  searchParser,
+} from "@/features/ticket/search-params";
 
 type TicketSearchInputProps = {
   placeholder: string;
