@@ -5,10 +5,16 @@ import { Spinner } from "@/components/spinner";
 import { CardCompact } from "@/components/card-compact";
 import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-form";
 import { getAuth } from "@/features/auth/queries/get-auth";
+import { SearchParams } from "nuqs/server"
+import { searchParamsCache } from "@/features/ticket/search-params";
 
+type TicketsPageProps = {
+  searchParams: SearchParams;
+}
 
-const TicketsPage = async () => {
+const TicketsPage = async ({searchParams}:TicketsPageProps) => {
   const { user } = await getAuth()
+  const searchParamsResult = await searchParamsCache.parse(searchParams)
   return (
     <>
       <div className="flex-1 flex flex-col gap-y-8">
@@ -20,7 +26,7 @@ const TicketsPage = async () => {
           content={<TicketUpsertForm />}
         />
         <Suspense fallback={<Spinner />}>
-          <TicketList userId={user?.id} />
+          <TicketList userId={user?.id} searchParams={searchParamsResult} />
         </Suspense>
       </div>
     </>

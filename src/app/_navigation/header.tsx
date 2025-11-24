@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { LucideKanban } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { useAuth } from "@/features/hooks/use-auth";
-import { AccountDropdown } from "@/components/account-dropdown";
+import { AccountDropdown } from "@/app/_navigation/account-dropdown";
 
 const Header = () => {
   const { user, isFetched } = useAuth();

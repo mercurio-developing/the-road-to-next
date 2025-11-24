@@ -30,7 +30,7 @@ export const upsertTicket = async (
   const { user } = await getAuthOrRedirect(signInPath());
 
   try {
-    if (!id) {
+    if (id) {
       const ticket = await prisma.ticket.findUnique({
         where: {
           id,

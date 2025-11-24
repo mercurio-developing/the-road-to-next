@@ -1,4 +1,4 @@
-import { NavItem } from "@/components/sidebar/types";
+import { NavItem } from "@/app/_navigation/sidebar/types";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { cloneElement } from "react";

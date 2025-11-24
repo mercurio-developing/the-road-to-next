@@ -1,8 +1,9 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { navItems } from "@/components/sidebar/constants";
-import { SideBarItem } from "@/components/sidebar/components/sidebar-item";
+import { navItems } from "@/app/_navigation/sidebar/constants";
+import { SideBarItem } from "@/app/_navigation/sidebar/components/sidebar-item";
 import { useAuth } from "@/features/hooks/use-auth";
 import { usePathname } from "next/navigation";
 import { getActivePath } from "@/utils/get-active-path";
@@ -28,7 +29,6 @@ const SideBar = () => {
   const [isTransition, setTransition] = useState(false);
   const { open, setOpen, toggleSidebar } = useSidebar();
 
-
   useEffect(() => {
     const handleToogle = async () => {
       setTransition(true);
@@ -36,7 +36,7 @@ const SideBar = () => {
       setTimeout(() => setTransition(false), 200);
     };
     handleToogle();
-  }, [setOpen]);
+  }, []);
 
   if (!user || !isFetched) {
     return null;

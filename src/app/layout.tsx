@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/header";
+import { Header } from "@/app/_navigation/header";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { SideBar } from "@/components/sidebar/components/sidebar";
+import { SideBar } from "@/app/_navigation/sidebar/components/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,10 +44,12 @@ export default function RootLayout({
                 items-center
               "
           >
-            <SidebarProvider>
-              <SideBar />
-              {children}
-            </SidebarProvider>
+            <NuqsAdapter>
+              <SidebarProvider>
+                <SideBar />
+                {children}
+              </SidebarProvider>
+            </NuqsAdapter>
           </main>
           <Toaster expand />
         </ThemeProvider>
