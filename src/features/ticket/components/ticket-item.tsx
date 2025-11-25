@@ -118,7 +118,7 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
             content={<CommentUpsertForm ticketId={ticket.id} />}
           />
         </div>
-        <div className="flex justify-center ml-8">
+        <div className="flex justify-center">
           <CommentList ticketId={ticket.id} />
         </div>
       </>}

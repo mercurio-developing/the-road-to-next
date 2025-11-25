@@ -9,8 +9,6 @@ type RootTemplateProps = {
 
 export default function RootTemplate({ children }: RootTemplateProps) {
   const params = useParams();
-  const key = JSON.stringify(params);
-  console.log(key)
   return (
     <>
       <>{children}</>

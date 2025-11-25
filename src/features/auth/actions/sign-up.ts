@@ -10,9 +10,14 @@ import {
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { lucia } from "@/lib/lucia";
+import { setCookieByKey } from "@/actions/cookies";
+import { ticketsPath } from "@/app/paths";
+import { redirect } from "next/navigation";
 
 const signUpSchema = z
   .object({
+    firstName: z.string().min(1).max(191),
+    lastName: z.string().min(1).max(191),
     username: z
       .string()
       .min(1)
@@ -36,20 +41,23 @@ const signUpSchema = z
   });
 
 export const signUp = async (_actionState: ActionState, formData: FormData) => {
+  console.log("formData")
   try {
-    const { username, email, password } = signUpSchema.parse(
-      Object.fromEntries(formData),
-    );
+    const { username, email, password, firstName, lastName } = signUpSchema.parse(Object.fromEntries(formData));
 
     const passwordHash = await hash(password);
+    console.log(passwordHash)
 
     const user = await prisma.user.create({
       data: {
+        firstName,
+        lastName,
         username,
         email,
         passwordHash,
       },
     });
+    console.log(user)
 
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -61,7 +69,9 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       );
     }
   } catch (error) {
+    console.log(error)
     return fromErrorToActionState(error, formData);
   }
-  return toActionState("SUCCESS", "Sign up successful");
+  await setCookieByKey("toast", "Sign up successful");
+  redirect(ticketsPath())
 };

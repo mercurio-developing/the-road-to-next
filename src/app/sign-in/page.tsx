@@ -5,7 +5,7 @@ import { SignInForm } from "@/features/auth/components/sign-in-form";
 
 const SignIn = () => {
   return (
-    <div className="flex-1 flex flex-col justify-center items-center">
+    <div className="flex-1 flex flex-col justify-start items-center mt-[20vh]">
       <CardCompact
         title="Sign In"
         description="Sign in to your account"

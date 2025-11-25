@@ -1,10 +1,8 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { signInPath, ticketPath } from "@/app/paths";
 import { revalidatePath } from "next/cache";
-import { setCookieByKey } from "@/actions/cookies";
 import {
   ActionState,
   fromErrorToActionState,
@@ -31,10 +29,9 @@ export const deleteComment = async (id: string,ticketId:string): Promise<ActionS
   } catch (error) {
     return fromErrorToActionState(error);
   }
+  if (ticketId) revalidatePath(ticketPath(ticketId));
 
-  revalidatePath(ticketPath(ticketId));
-  await setCookieByKey("toast", "comment Deleted");
-  redirect(ticketPath(ticketId));
+  return toActionState("SUCCESS", "Comment Deleted");
 };
 {
 }

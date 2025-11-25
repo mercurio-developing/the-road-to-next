@@ -5,7 +5,7 @@ import { SignUpForm } from "@/features/auth/components/sign-up-form";
 
 const SignUpPage = () => {
   return (
-    <div className="flex-1 flex flex-col justify-center items-center">
+    <div className="flex-1 flex flex-col justify-start items-center mt-[20vh]">
       <CardCompact
         title="Sign Up"
         description="Create a new account"

@@ -10,5 +10,3 @@ export const passwordForgotPath = () => "/password-forgot"
 
 export const accountProfilePath = ()=> "/account/profile";
 export const accountPasswordPath = () => "/account/password"
-
-export const commentEditPath = (commentId:string,ticketId:string)=>  `${ticketPath(ticketId)}/comments/${commentId}/edit`

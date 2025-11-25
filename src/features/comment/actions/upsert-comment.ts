@@ -12,8 +12,7 @@ import { isOwner } from "@/features/auth/utils/is-owner";
 import { z } from "zod";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { revalidatePath } from "next/cache";
-import { setCookieByKey } from "@/actions/cookies";
-import { redirect } from "next/navigation";
+
 
 const upsertComentSchema = z.object({
   content: z.string().min(1).max(1024),
@@ -63,8 +62,7 @@ export const upsertComment = async (
   }
   if (ticketId) revalidatePath(ticketPath(ticketId));
   if (id) {
-    await setCookieByKey("toast", "Comment Updated");
-    if (ticketId) redirect(ticketPath(ticketId));
+    return toActionState("SUCCESS", "Comment Updated");
   }
   return toActionState("SUCCESS", "Comment Created");
 };
