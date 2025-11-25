@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import {
   ParsedSearchParams,
-  searchParamsCache,
 } from "@/features/ticket/search-params";
 
 export const getTickets = async (

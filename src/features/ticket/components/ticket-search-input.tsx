@@ -1,10 +1,8 @@
 "use client";
 
 import { SearchInput } from "@/components/search-input";
-import { useQueryState, useQueryStates } from "nuqs";
+import { useQueryState} from "nuqs";
 import {
-  paginationOptions,
-  paginationParser,
   searchParser,
 } from "@/features/ticket/search-params";
 

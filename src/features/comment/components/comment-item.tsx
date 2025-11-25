@@ -6,23 +6,16 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { commentEditPath, ticketEditPath, ticketPath } from "@/app/paths";
+import { commentEditPath} from "@/app/paths";
 import {
-  LucideMoreVertical,
   LucidePencil,
-  LucideSquareArrowOutUpRight,
-  LucideTrash,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { clsx } from "clsx";
 import { Prisma } from ".prisma/client";
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
-import { UseConfirmDialog } from "@/components/confirm-dialog";
-import { deleteTicket } from "@/features/ticket/actions/delete-ticket";
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { CommentDeleteButton } from "@/features/comment/components/comment-delete-button";
 
 type CommentItemProps = {
@@ -51,10 +44,10 @@ const CommentItem = async ({ comment }: CommentItemProps) => {
           <CardTitle className="flex gap-x-1">
             <Avatar>
               <AvatarFallback>
-                {comment.user.username[0].toUpperCase()}
+                {comment.user?.username[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <span className="ml-1 text-lg">{comment.user.username}</span>
+            <span className="ml-1 text-lg">{comment.user?.username}</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="ml-2">

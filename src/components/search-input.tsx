@@ -2,11 +2,6 @@
 
 import { Input } from "@/components/ui/input";
 import { useDebouncedCallback } from "use-debounce";
-import { useQueryStates } from "nuqs";
-import {
-  paginationOptions,
-  paginationParser,
-} from "@/features/ticket/search-params";
 
 type SearchInputProps = {
   placeholder: string;

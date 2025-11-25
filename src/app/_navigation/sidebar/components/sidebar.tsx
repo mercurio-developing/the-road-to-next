@@ -36,7 +36,7 @@ const SideBar = () => {
       setTimeout(() => setTransition(false), 200);
     };
     handleToogle();
-  }, []);
+  }, [setOpen]);
 
   if (!user || !isFetched) {
     return null;
