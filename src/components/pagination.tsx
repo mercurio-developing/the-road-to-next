@@ -71,11 +71,11 @@ const Pagination = ({
       defaultValue={pagination.size.toString()}
       onValueChange={handleChangeSize}
     >
-      <SelectTrigger className="h-[36px]">
+      <SelectTrigger size="sm" className="h-[36px]">
         <SelectValue />
       </SelectTrigger>
-      <SelectContent>
-        <SelectItem value="5">5</SelectItem>
+      <SelectContent >
+        <SelectItem  value="5">5</SelectItem>
         <SelectItem value="10">10</SelectItem>
         <SelectItem value="25">25</SelectItem>
         <SelectItem value="50">50</SelectItem>

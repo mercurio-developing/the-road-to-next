@@ -37,7 +37,7 @@ export const upsertComment = async (
       const comment = await prisma.comment.findUnique({
         where: { id },
       });
-      if (comment || !isOwner(user, comment)) {
+      if (!comment || !isOwner(user, comment)) {
         return toActionState("ERROR", "No Authorized");
       }
     }

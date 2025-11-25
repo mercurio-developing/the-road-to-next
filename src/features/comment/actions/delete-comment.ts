@@ -1,0 +1,40 @@
+"use server";
+
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { signInPath, ticketPath } from "@/app/paths";
+import { revalidatePath } from "next/cache";
+import { setCookieByKey } from "@/actions/cookies";
+import {
+  ActionState,
+  fromErrorToActionState,
+  toActionState,
+} from "@/components/form/utils/to-action-state";
+import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
+import { isOwner } from "@/features/auth/utils/is-owner";
+
+export const deleteComment = async (id: string,ticketId:string): Promise<ActionState> => {
+  const { user }  = await getAuthOrRedirect(signInPath());
+
+  try {
+    if (!id) {
+      const comment = await prisma.comment.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!comment || !isOwner(user, comment)) {
+        return toActionState("ERROR", "No Authorized");
+      }
+    }
+    await prisma.comment.delete({ where: { id } });
+  } catch (error) {
+    return fromErrorToActionState(error);
+  }
+
+  revalidatePath(ticketPath(ticketId));
+  await setCookieByKey("toast", "comment Deleted");
+  redirect(ticketPath(ticketId));
+};
+{
+}

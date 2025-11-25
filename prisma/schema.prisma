@@ -62,8 +62,9 @@ model Comment {
   content     String
   ticket      Ticket      @relation(fields:[ticketId], references:[id], onDelete:Cascade)
   ticketId    String
-  userId      String
-  user        User        @relation(fields:[userId],references:[id],onDelete:Cascade)
+  userId      String?
+  user        User?        @relation(fields:[userId],references:[id],onDelete:SetNull)
 
   @@index([ticketId])
+  @@index([userId])
 }

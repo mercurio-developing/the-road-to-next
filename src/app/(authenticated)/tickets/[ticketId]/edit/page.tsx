@@ -20,14 +20,14 @@ const TicketEditPage = async ({ params }: TicketEditPageProps) => {
   const ticket = await getTicket(ticketId);
 
   const isTicketFound = !!ticket;
-  const isTickerOwner = isOwner(user, ticket);
+  const isTicketOwner = isOwner(user, ticket);
 
-  if (!isTicketFound || !isTickerOwner) {
+  if (!isTicketFound || !isTicketOwner) {
     notFound();
   }
 
   return (
-    <div className="flex-1 flex flex-col gap-y-8 ml-10 ">
+    <div className="flex-1 flex flex-col gap-y-8 ">
       <Breadcrumbs
         breadcrumbs={[
           { title: "Tickets", href: ticketsPath() },
@@ -36,7 +36,7 @@ const TicketEditPage = async ({ params }: TicketEditPageProps) => {
         ]}
       />
       <Separator />
-      <div className="flex-1 flex flex-col justify-center items-center">
+      <div className="flex-1 flex justify-center items-start">
         <CardCompact
           title="Edit Ticket"
           description="Edit an existing ticket"
