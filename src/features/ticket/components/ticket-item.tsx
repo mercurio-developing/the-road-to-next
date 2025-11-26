@@ -15,25 +15,19 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { clsx } from "clsx";
-import { Prisma } from ".prisma/client";
 import { toCurrencyFromCent } from "@/utils/currency";
 import { TicketMoreMenu } from "@/features/ticket/components/ticket-more-menu";
-import { getAuth } from "@/features/auth/queries/get-auth";
-import { isOwner } from "@/features/auth/utils/is-owner";
-import { CommentList } from "@/features/comment/components/comment-list";
-import { CommentsWithMetadata } from "@/features/comment/types";
+import { TicketWithMetadata } from "@/features/ticket/type";
+
+
 
 type TicketItemProps = {
-  ticket: Prisma.TicketGetPayload<{
-    include: { user: { select: { username: true } } };
-  }>;
-  comments?: CommentsWithMetadata[];
+  ticket: TicketWithMetadata;
+  comments?: React.ReactNode;
   isDetail?: boolean;
 };
 
 const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
-  const { user } = await getAuth();
-  const isTicketOwner = isOwner(user, ticket);
 
   const detailButton = (
     <Button asChild variant="outline" size="icon">
@@ -43,7 +37,7 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
     </Button>
   );
 
-  const editButton = isTicketOwner && (
+  const editButton =  ticket.isOwner && (
     <Button asChild variant="outline" size="icon">
       <Link prefetch href={ticketEditPath(ticket.id)}>
         <LucidePencil />
@@ -51,7 +45,7 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
     </Button>
   );
 
-  const moreMenu = isTicketOwner && (
+  const moreMenu = ticket.isOwner && (
     <TicketMoreMenu
       ticket={ticket}
       trigger={
@@ -71,7 +65,7 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
     >
       <div
         className={clsx("flex gap-x-0", {
-          "gap-x-2": !isDetail || (isTicketOwner && isDetail),
+          "gap-x-2": !isDetail || (ticket.isOwner && isDetail),
         })}
       >
         <Card key={ticket.id} className="w-full overflow-hidden">
@@ -113,11 +107,7 @@ const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
           )}
         </div>
       </div>
-      {isDetail && (
-        <div className="flex justify-center">
-          <CommentList ticketId={ticket.id} comments={comments} />
-        </div>
-      )}
+      {comments}
     </div>
   );
 };

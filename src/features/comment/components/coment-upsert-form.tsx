@@ -7,11 +7,11 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { Form } from "@/components/form/form";
 import { useActionState } from "react";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
-import { Comment } from ".prisma/client";
 import { upsertComment } from "@/features/comment/actions/upsert-comment";
+import { CommentWithMetadata } from "@/features/comment/types";
 
 type CommentUpsertProps = {
-  comment?: Comment;
+  comment?: CommentWithMetadata;
   ticketId: string;
 };
 

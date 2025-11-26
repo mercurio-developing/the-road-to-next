@@ -5,6 +5,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ticketsPath } from "@/app/paths";
 import { Separator } from "@/components/ui/separator";
 import { getComments } from "@/features/comment/queries/get-comments";
+import { CommentList } from "@/features/comment/components/comment-list";
 
 type TicketPageProps = {
   params: Promise<{
@@ -26,6 +27,7 @@ const TicketPage = async ({ params }: TicketPageProps) => {
     notFound();
   }
 
+
   return (
     <div className="flex-1 flex flex-col gap-y-8 ml-10">
       <Breadcrumbs
@@ -36,7 +38,11 @@ const TicketPage = async ({ params }: TicketPageProps) => {
       />
       <Separator />
       <div className="flex justify-center animate-fade-in-from-top">
-        <TicketItem ticket={ticket} comments={comments} isDetail />
+        <TicketItem
+          ticket={ticket}
+          comments={<CommentList ticket={ticket} comments={comments} />}
+          isDetail
+        />
       </div>
     </div>
   );

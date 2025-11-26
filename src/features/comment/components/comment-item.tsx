@@ -9,24 +9,19 @@ import {
 } from "@/components/ui/card";
 import { LucidePencil, LucideTrash, LucideX } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Prisma } from ".prisma/client";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useState } from "react";
 import { CardCompact } from "@/components/card-compact";
 import { CommentUpsertForm } from "@/features/comment/components/coment-upsert-form";
 import { UseConfirmDialog } from "@/components/confirm-dialog";
 import { deleteComment } from "@/features/comment/actions/delete-comment";
+import { CommentWithMetadata } from "@/features/comment/types";
 
 type CommentItemProps = {
-  isOwner: boolean;
-  comment: Prisma.CommentGetPayload<{
-    include: {
-      user: { select: { username: true; firstName: true; lastName: true } };
-    };
-  }>;
+  comment: CommentWithMetadata
 };
 
-const CommentItem = ({ comment, isOwner }: CommentItemProps) => {
+const CommentItem = ({ comment }: CommentItemProps) => {
   const [isEdit, setEdit] = useState(false);
 
   const handleSetEdit = () => {
@@ -90,7 +85,7 @@ const CommentItem = ({ comment, isOwner }: CommentItemProps) => {
           </CardFooter>
         </Card>
       )}
-      {isOwner && (
+      {comment.isOwner && (
         <div className="flex flex-col gap-y-1 ml-1">
           {editButton}
           {deleteDialog}
