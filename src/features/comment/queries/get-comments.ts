@@ -5,21 +5,15 @@ export const getComments = async (ticketId: string | undefined) => {
     ticketId,
   };
 
-  const [comments, count] = await prisma.$transaction([
-    prisma.comment.findMany({
-      where,
-      include: {
-        user: { select: { username: true, firstName: true, lastName: true } },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    }),
-    prisma.comment.count({ where }),
-  ]);
+  const comments = await prisma.comment.findMany({
+    where,
+    include: {
+      user: { select: { username: true, firstName: true, lastName: true } },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-  return {
-    list: comments,
-    metadata: { count },
-  };
+  return comments;
 };

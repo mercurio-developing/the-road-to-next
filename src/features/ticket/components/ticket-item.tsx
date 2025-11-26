@@ -21,17 +21,17 @@ import { TicketMoreMenu } from "@/features/ticket/components/ticket-more-menu";
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { CommentList } from "@/features/comment/components/comment-list";
-import { CardCompact } from "@/components/card-compact";
-import { CommentUpsertForm } from "@/features/comment/components/coment-upsert-form";
+import { CommentsWithMetadata } from "@/features/comment/types";
 
 type TicketItemProps = {
   ticket: Prisma.TicketGetPayload<{
     include: { user: { select: { username: true } } };
   }>;
+  comments?: CommentsWithMetadata[];
   isDetail?: boolean;
 };
 
-const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
+const TicketItem = async ({ ticket, comments, isDetail }: TicketItemProps) => {
   const { user } = await getAuth();
   const isTicketOwner = isOwner(user, ticket);
 
@@ -69,7 +69,11 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
         "max-w-[420px]": !isDetail,
       })}
     >
-      <div className={clsx("flex gap-x-0",{"gap-x-2":!isDetail || (isTicketOwner && isDetail)})}>
+      <div
+        className={clsx("flex gap-x-0", {
+          "gap-x-2": !isDetail || (isTicketOwner && isDetail),
+        })}
+      >
         <Card key={ticket.id} className="w-full overflow-hidden">
           <CardHeader>
             <CardTitle className="flex gap-x-2">
@@ -109,19 +113,11 @@ const TicketItem = async ({ ticket, isDetail }: TicketItemProps) => {
           )}
         </div>
       </div>
-      {isDetail && <>
-        <div className="flex justify-start">
-          <CardCompact
-            classname={"w-full max-w-[580px]"}
-            title="New Comment"
-            description="A new comment will be created"
-            content={<CommentUpsertForm ticketId={ticket.id} />}
-          />
-        </div>
+      {isDetail && (
         <div className="flex justify-center">
-          <CommentList ticketId={ticket.id} />
+          <CommentList ticketId={ticket.id} comments={comments} />
         </div>
-      </>}
+      )}
     </div>
   );
 };

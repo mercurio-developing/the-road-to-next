@@ -8,7 +8,6 @@ type RootTemplateProps = {
 };
 
 export default function RootTemplate({ children }: RootTemplateProps) {
-  const params = useParams();
   return (
     <>
       <>{children}</>
