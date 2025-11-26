@@ -2,13 +2,13 @@ import { flattenError, ZodError } from "zod";
 
 export type FieldErrors = Record<string, string[]>;
 
-export type ActionState = {
+export type ActionState<T = unknown> = {
   status?: "SUCCESS" | "ERROR";
   message: string;
   fieldErrors?: FieldErrors;
   payload?: FormData;
   timestamp: number;
-  data?:unknown;
+  data?:T;
 };
 
 export const EMPTY_ACTION_STATE: ActionState = {

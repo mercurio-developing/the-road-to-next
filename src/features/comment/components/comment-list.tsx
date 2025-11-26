@@ -40,10 +40,13 @@ const CommentList = ({ ticket, paginatedComments }: commentListProps) => {
     actionState: ActionState,
     isEdit: boolean = false,
   ) => {
-    const newComment = actionState.data as CommentWithMetadata;
+
+    const newComment = actionState?.data as CommentWithMetadata
+    if (!newComment) return null
+
     if (isEdit) {
       setComments(
-        comments.map((comment) =>
+        comments.map((comment:CommentWithMetadata) =>
           comment.id === newComment.id ? { ...newComment } : comment,
         ),
       );

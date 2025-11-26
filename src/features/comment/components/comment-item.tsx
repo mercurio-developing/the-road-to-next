@@ -2,10 +2,10 @@
 
 import {
   Card,
-  CardHeader,
-  CardTitle,
   CardContent,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { LucidePencil, LucideTrash, LucideX } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,11 +20,18 @@ import { ActionState } from "@/components/form/utils/to-action-state";
 
 type CommentItemProps = {
   comment: CommentWithMetadata;
-  handleDeleteComment:(id:string)=>void;
-  handleUpsertComment:(actionState:ActionState,isEdit?:boolean)=>void;
+  handleDeleteComment: (id: string) => void;
+  handleUpsertComment: (
+    actionState: ActionState,
+    isEdit?: boolean,
+  ) => void;
 };
 
-const CommentItem = ({ comment,handleDeleteComment,handleUpsertComment}: CommentItemProps) => {
+const CommentItem = ({
+  comment,
+  handleDeleteComment,
+  handleUpsertComment,
+}: CommentItemProps) => {
   const [isEdit, setEdit] = useState(false);
 
   const handleSetEdit = () => {
@@ -48,15 +55,17 @@ const CommentItem = ({ comment,handleDeleteComment,handleUpsertComment}: Comment
         <LucideTrash className="w-9 h-9 p-2" />
       </Button>
     ),
-    onSuccess:()=>{
-      handleDeleteComment(comment.id)
-    }
+    onSuccess: () => {
+      handleDeleteComment(comment.id);
+    },
   });
 
-  const handleOnSuccess = (actionState: ActionState)=>{
-    handleUpsertComment(actionState,isEdit)
-    setEdit(false)
-  }
+  const handleOnSuccess = (
+    actionState: ActionState,
+  ) => {
+    handleUpsertComment(actionState, isEdit);
+    setEdit(false);
+  };
 
   return (
     <div className={"w-full flex gap-x-1  max-w-[580px]"}>
@@ -66,7 +75,11 @@ const CommentItem = ({ comment,handleDeleteComment,handleUpsertComment}: Comment
           description="Edit an existing comment"
           classname="w-full max-w-[535px] animate-fade-from-top"
           content={
-            <CommentUpsertForm comment={comment} ticketId={comment.ticketId} onSuccess={handleOnSuccess}/>
+            <CommentUpsertForm
+              comment={comment}
+              ticketId={comment.ticketId}
+              onSuccess={handleOnSuccess}
+            />
           }
         />
       ) : (

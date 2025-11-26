@@ -19,7 +19,7 @@ type CommentUpsertProps = {
   onSuccess:(actionState:ActionState)=>void
 };
 
-const CommentUpsertForm = ({ comment, ticketId,onSuccess }: CommentUpsertProps) => {
+const CommentUpsertForm = ({ comment, ticketId, onSuccess }: CommentUpsertProps) => {
   const [actionState, action] = useActionState(
     upsertComment.bind(null, comment?.id),
     EMPTY_ACTION_STATE,
