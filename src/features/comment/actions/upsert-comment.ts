@@ -27,7 +27,6 @@ export const upsertComment = async (
 
   const ticketId = formData.get("ticketId")?.toString();
 
-  console.log("TICKET ID",ticketId)
 
   const ticket = ticketId && (await getTicket(ticketId));
 

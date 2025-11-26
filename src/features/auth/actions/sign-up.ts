@@ -40,12 +40,10 @@ const signUpSchema = z
   });
 
 export const signUp = async (_actionState: ActionState, formData: FormData) => {
-  console.log("formData")
   try {
     const { username, email, password, firstName, lastName } = signUpSchema.parse(Object.fromEntries(formData));
 
     const passwordHash = await hash(password);
-    console.log(passwordHash)
 
     const user = await prisma.user.create({
       data: {
@@ -56,7 +54,6 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
         passwordHash,
       },
     });
-    console.log(user)
 
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -68,7 +65,6 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       );
     }
   } catch (error) {
-    console.log(error)
     return fromErrorToActionState(error, formData);
   }
   await setCookieByKey("toast", "Sign up successful");

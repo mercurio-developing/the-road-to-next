@@ -1,7 +1,6 @@
 "use client";
 
 import { RedirectToast } from "@/components/redirect-toast";
-import { useParams } from "next/navigation";
 
 type RootTemplateProps = {
   children: React.ReactNode;

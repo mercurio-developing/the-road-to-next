@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 
 const AccountTabs = () => {
   const pathName = usePathname()
-  console.log(pathName.split("/").at(-1))
   return (
     <Tabs value={pathName.split("/").at(-1)}>
       <TabsList>
