@@ -21,12 +21,11 @@ import { CommentUpsertForm } from "@/features/comment/components/coment-upsert-f
 import { UseConfirmDialog } from "@/components/confirm-dialog";
 import { deleteComment } from "@/features/comment/actions/delete-comment";
 import { CommentWithMetadata } from "@/features/comment/types";
-import { ActionState } from "@/components/form/utils/to-action-state";
 
 type CommentItemProps = {
   comment: CommentWithMetadata;
-  handleDeleteComment: (id: string) => void;
-  handleUpsertComment: (actionState: ActionState, isEdit?: boolean) => void;
+  handleDeleteComment: () => void;
+  handleUpsertComment: () => void;
 };
 
 const CommentItem = ({
@@ -62,12 +61,12 @@ const CommentItem = ({
       </Button>
     ),
     onSuccess: () => {
-      handleDeleteComment(comment.id);
+      handleDeleteComment();
     },
   });
 
-  const handleOnSuccess = (actionState: ActionState) => {
-    handleUpsertComment(actionState, isEdit);
+  const handleOnSuccess = () => {
+    handleUpsertComment();
     setEdit(false);
   };
 

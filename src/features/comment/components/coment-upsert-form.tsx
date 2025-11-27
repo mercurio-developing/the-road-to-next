@@ -7,7 +7,6 @@ import { SubmitButton } from "@/components/form/submit-button";
 import { Form } from "@/components/form/form";
 import { useActionState } from "react";
 import {
-  ActionState,
   EMPTY_ACTION_STATE,
 } from "@/components/form/utils/to-action-state";
 import { upsertComment } from "@/features/comment/actions/upsert-comment";
@@ -16,7 +15,7 @@ import { CommentWithMetadata } from "@/features/comment/types";
 type CommentUpsertProps = {
   comment?: CommentWithMetadata;
   ticketId: string;
-  onSuccess:(actionState:ActionState)=>void
+  onSuccess:()=>void
 };
 
 const CommentUpsertForm = ({ comment, ticketId, onSuccess }: CommentUpsertProps) => {

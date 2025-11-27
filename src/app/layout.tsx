@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { SideBar } from "@/app/_navigation/sidebar/components/sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ReactQueryProvider } from "@/app/_providers/react-query/react-query-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
+          <ReactQueryProvider>
           <Header />
           <main
             className="
@@ -52,6 +54,7 @@ export default function RootLayout({
             </NuqsAdapter>
           </main>
           <Toaster expand />
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
