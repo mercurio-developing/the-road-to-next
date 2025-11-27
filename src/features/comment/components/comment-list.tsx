@@ -5,7 +5,6 @@ import { CommentItem } from "@/features/comment/components/comment-item";
 import { CardCompact } from "@/components/card-compact";
 import { CommentUpsertForm } from "@/features/comment/components/coment-upsert-form";
 import {
-  CommentsWithMetadata,
   CommentWithMetadata,
 } from "@/features/comment/types";
 import { TicketWithMetadata } from "@/features/ticket/type";
@@ -13,10 +12,11 @@ import { Button } from "@/components/ui/button";
 import { getComments } from "@/features/comment/queries/get-comments";
 import { useState } from "react";
 import { ActionState } from "@/components/form/utils/to-action-state";
+import { PaginateData } from "@/types/pagination";
 
 type commentListProps = {
   ticket: TicketWithMetadata;
-  paginatedComments: CommentsWithMetadata;
+  paginatedComments: PaginateData<CommentWithMetadata>;
 };
 
 const CommentList = ({ ticket, paginatedComments }: commentListProps) => {
@@ -24,7 +24,7 @@ const CommentList = ({ ticket, paginatedComments }: commentListProps) => {
   const [metadata, setMetadata] = useState(paginatedComments.metadata);
 
   const handleMore = async () => {
-    const morePaginatedComments = await getComments(ticket.id, comments.length);
+    const morePaginatedComments = await getComments(ticket.id, metadata.cursor);
     setMetadata(morePaginatedComments.metadata);
     setComments([...comments, ...morePaginatedComments.list]);
   };

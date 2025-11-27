@@ -38,6 +38,6 @@ export const getTickets = async (
       ...ticket,
       isOwner: isOwner(user, ticket),
     })),
-    metadata: { count, hasNextPage: count > skip + take },
+    metadata: { count, hasNextPage: count > skip + take , cursor:undefined},
   };
 };

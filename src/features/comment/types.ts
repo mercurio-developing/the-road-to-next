@@ -8,5 +8,5 @@ export type CommentWithMetadata = Prisma.CommentGetPayload<{
 
 export type CommentsWithMetadata = {
   list: CommentWithMetadata[];
-  metadata: { count: number; hasNextPage: boolean };
+  metadata: { count: number; hasNextPage: boolean ,cursor:{id:string,createdAt:number} | undefined};
 };
