@@ -2,14 +2,17 @@
 
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/form/submit-button";
-import { signIn } from "@/features/auth/actions/sign-in";
 import { useActionState } from "react";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/to-action-state";
 import { Form } from "@/components/form/form";
 import { FieldError } from "@/components/form/field-error";
+import { passwordForgot } from "@/features/password/actions/password-forgot";
 
-const SignInForm = () => {
-  const [actionState, action] = useActionState(signIn, EMPTY_ACTION_STATE);
+const PasswordForgotForm = () => {
+  const [actionState, action] = useActionState(
+    passwordForgot,
+    EMPTY_ACTION_STATE,
+  );
 
   return (
     <Form action={action} actionState={actionState}>
@@ -19,16 +22,8 @@ const SignInForm = () => {
         defaultValue={actionState.payload?.get("email") as string}
       />
       <FieldError name="email" actionState={actionState} />
-      <Input
-        type="password"
-        name="password"
-        placeholder="Password"
-        defaultValue={actionState.payload?.get("password") as string}
-      />
-      <FieldError name="password" actionState={actionState} />
-
-      <SubmitButton label="Sign In" />
+      <SubmitButton label="Send Email" />
     </Form>
   );
 };
-export { SignInForm };
+export { PasswordForgotForm };

@@ -6,7 +6,7 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { signInPath, ticketPath } from "@/app/paths";
+import { signInPath, ticketPath } from "@/paths";
 import { prisma } from "@/lib/prisma";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { z } from "zod";

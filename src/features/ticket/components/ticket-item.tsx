@@ -6,7 +6,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { ticketEditPath, ticketPath } from "@/app/paths";
+import { ticketEditPath, ticketPath } from "@/paths";
 import { TICKET_ICONS } from "../constants";
 import {
   LucideMoreVertical,

@@ -1,42 +1,20 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { lucia } from "@/lib/lucia";
 import { cache } from "react";
+import { validateSession } from "@/lib/lucia";
+import { SESSION_COOKIE_NAME } from "../utils/session-cookie";
 
 export const getAuth = cache(async () => {
-  const sessionId =
-    (await cookies()).get(lucia.sessionCookieName)?.value ?? null;
-  if (!sessionId) {
+  const sessionToken =
+    (await cookies()).get(SESSION_COOKIE_NAME)?.value ?? null;
+
+  if (!sessionToken) {
     return {
       user: null,
       session: null,
     };
   }
-  const result = await lucia.validateSession(sessionId);
+  return await validateSession(sessionToken);
+  });
 
-  try {
-    if (result.session && result.session.fresh) {
-      const sessionCookie = lucia.createSessionCookie(result.session.id);
-      if (sessionCookie) {
-        (await cookies()).set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-      }
-    }
-    if (!result.session) {
-      const sessionCookie = lucia.createBlankSessionCookie();
-      if (sessionCookie) {
-        (await cookies()).set(
-          sessionCookie.name,
-          sessionCookie.value,
-          sessionCookie.attributes,
-        );
-      }
-    }
-  } catch {}
-
-  return result;
-});

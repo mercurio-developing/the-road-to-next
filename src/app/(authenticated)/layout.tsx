@@ -1,5 +1,5 @@
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { signInPath } from "@/app/paths";
+import { signInPath } from "@/paths";
 
 export default async function AuthtenticatedLayout({
   children,

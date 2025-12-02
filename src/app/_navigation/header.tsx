@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { homePath, signInPath, signUpPath} from "@/app/paths";
+import { homePath, signInPath, signUpPath} from "@/paths";
 import { buttonVariants } from "@/components/ui/button";
 import { LucideKanban } from "lucide-react";
 import { ThemeSwitcher } from "@/components/theme/theme-switcher";

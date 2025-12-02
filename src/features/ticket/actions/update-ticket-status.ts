@@ -3,7 +3,7 @@
 import { TicketStatus } from ".prisma/client";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { signInPath, ticketsPath } from "@/app/paths";
+import { signInPath, ticketsPath } from "@/paths";
 import {
   fromErrorToActionState,
   toActionState,

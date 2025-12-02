@@ -2,7 +2,7 @@ import { TicketItem } from "@/features/ticket/components/ticket-item";
 import { getTicket } from "@/features/ticket/queries/get-ticket";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { ticketsPath } from "@/app/paths";
+import { ticketsPath } from "@/paths";
 import { Separator } from "@/components/ui/separator";
 import { getComments } from "@/features/comment/queries/get-comments";
 import { CommentList } from "@/features/comment/components/comment-list";

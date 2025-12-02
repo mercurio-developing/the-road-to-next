@@ -22,8 +22,18 @@ model User {
   lastName  String
   passwordHash  String
   sessions  Session[]
+  passwordResetToken PasswordResetToken[]
   tickets   Ticket[]
   comments  Comment[]
+}
+
+model PasswordResetToken {
+  tokenHash String @id
+  expiresAt DateTime
+  userId String
+  user   User      @relation(fields:[userId],references:[id],onDelete:Cascade)
+
+  @@index([userId])
 }
 
 model Session{

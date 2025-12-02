@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { signInPath, ticketsPath } from "@/app/paths";
+import { signInPath, ticketsPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import { setCookieByKey } from "@/actions/cookies";
 import {

@@ -1,4 +1,4 @@
-import { accountProfilePath, homePath, ticketsPath } from "@/app/paths";
+import { accountProfilePath, homePath, ticketsPath } from "@/paths";
 import { LucideLibrary, LucideBook, LucideCircleUser } from "lucide-react";
 import { NavItem } from "@/app/_navigation/sidebar/types";
 

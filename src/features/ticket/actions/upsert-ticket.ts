@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { signInPath, ticketsPath } from "@/app/paths";
+import { signInPath, ticketsPath } from "@/paths";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";

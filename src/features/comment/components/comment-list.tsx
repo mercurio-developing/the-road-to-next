@@ -7,7 +7,6 @@ import { CardCompact } from "@/components/card-compact";
 import { CommentUpsertForm } from "@/features/comment/components/coment-upsert-form";
 import { CommentWithMetadata } from "@/features/comment/types";
 import { TicketWithMetadata } from "@/features/ticket/type";
-import { Button } from "@/components/ui/button";
 import { getComments } from "@/features/comment/queries/get-comments";
 import { PaginateData } from "@/types/pagination";
 
@@ -21,7 +20,7 @@ type commentListProps = {
 
 const CommentList = ({ ticket, paginatedComments }: commentListProps) => {
   const queryKey = ["comments", ticket.id];
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage} =
     useInfiniteQuery({
       queryKey,
       queryFn: ({ pageParam }) => getComments(ticket.id, pageParam),
@@ -43,9 +42,6 @@ const CommentList = ({ ticket, paginatedComments }: commentListProps) => {
 
   const comments = data?.pages.flatMap((page) => page.list);
 
-  const handleMore = async () => {
-    await fetchNextPage();
-  };
 
   const queryClient = useQueryClient();
 

@@ -5,7 +5,7 @@ import { TicketUpsertForm } from "@/features/ticket/components/ticket-upsert-for
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { Breadcrumbs } from "@/components/breadcrumbs";
-import { ticketPath, ticketsPath } from "@/app/paths";
+import { ticketPath, ticketsPath } from "@/paths";
 import { Separator } from "@/components/ui/separator";
 
 type TicketEditPageProps = {

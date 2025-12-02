@@ -1,6 +1,6 @@
 import { CardCompact } from "@/components/card-compact";
 import Link from "next/link";
-import { signInPath } from "@/app/paths";
+import { signInPath } from "@/paths";
 import { SignUpForm } from "@/features/auth/components/sign-up-form";
 
 const SignUpPage = () => {

@@ -1,6 +1,5 @@
 import { signOut } from "@/features/auth/actions/sign-out";
 import { LucideLogOut, LucideUser } from "lucide-react";
-import { User as AuthUser } from "lucia";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { accountPasswordPath, accountProfilePath } from "@/app/paths";
+import { accountPasswordPath, accountProfilePath } from "@/paths";
 import Link from "next/link";
+import { User } from ".prisma/client";
 
 type AccountDropdownProps = {
-  user: AuthUser;
+  user: User;
 };
 
 const AccountDropdown = ({ user }: AccountDropdownProps) => {

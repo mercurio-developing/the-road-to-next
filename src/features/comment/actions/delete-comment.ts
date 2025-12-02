@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { signInPath, ticketPath } from "@/app/paths";
+import { signInPath, ticketPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import {
   ActionState,

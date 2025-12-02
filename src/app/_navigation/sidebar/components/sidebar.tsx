@@ -7,7 +7,7 @@ import { SideBarItem } from "@/app/_navigation/sidebar/components/sidebar-item";
 import { useAuth } from "@/features/hooks/use-auth";
 import { usePathname } from "next/navigation";
 import { getActivePath } from "@/utils/get-active-path";
-import { signInPath, signUpPath } from "@/app/paths";
+import { signInPath, signUpPath } from "@/paths";
 import {
   Sidebar,
   SidebarContent,
