@@ -11,7 +11,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { User } from ".prisma/client";
 import { createNewSession } from "@/lib/lucia";
-import { verifyPasswordHash } from "@/features/password/utils/hast-and-verify";
+import { verifyPasswordHash } from "@/features/password/utils/hash-and-verify";
 
 const signInSchema = z.object({
   email: z.email().min(1, { message: "Is required" }).max(191),

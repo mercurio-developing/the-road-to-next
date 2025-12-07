@@ -7,12 +7,13 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { prisma } from "@/lib/prisma";
 import { setCookieByKey } from "@/actions/cookies";
-import { ticketsPath } from "@/paths";
+import { signInPath, ticketsPath } from "@/paths";
 import { redirect } from "next/navigation";
 import { generateRandomToken } from "@/utils/crypto";
 import { setSessionCookie } from "../utils/session-cookie";
 import { createSession } from "@/lib/lucia";
-import { hashPassword } from "@/features/password/utils/hast-and-verify";
+import { hashPassword } from "@/features/password/utils/hash-and-verify";
+import { sendEmailWelcome } from "@/features/auth/emails/send-email-welcome";
 
 const signUpSchema = z
   .object({
@@ -59,6 +60,11 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     const session = await createSession(sessionToken, user.id);
 
     await setSessionCookie(sessionToken, session.expiresAt);
+
+    const appBaseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "http://localhost:3000";
+    const loginUrl = `${appBaseUrl}${signInPath()}`;
+    const toName = `${firstName} ${lastName}`.trim();
+    await sendEmailWelcome(toName, email, loginUrl);
 
   } catch (error) {
     return fromErrorToActionState(error, formData);

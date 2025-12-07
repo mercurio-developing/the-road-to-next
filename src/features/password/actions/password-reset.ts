@@ -1,18 +1,17 @@
 "use server";
 
+import { redirect } from "next/navigation";
+import { z } from "zod";
+import { setCookieByKey } from "@/actions/cookies";
 import {
   ActionState,
   fromErrorToActionState,
   toActionState,
 } from "@/components/form/utils/to-action-state";
-import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { hashPassword } from "@/features/password/utils/hast-and-verify";
-import { ticketsPath } from "@/paths";
-import { redirect } from "next/navigation";
-import { setCookieByKey } from "@/actions/cookies";
+import { signInPath } from "@/paths";
 import { hashToken } from "@/utils/crypto";
-import { createNewSession } from "@/lib/lucia";
+import { hashPassword } from "../utils/hash-and-verify";
 
 const passwordResetSchema = z
   .object({
@@ -32,12 +31,13 @@ const passwordResetSchema = z
 export const passwordReset = async (
   tokenId: string,
   _actionState: ActionState,
-  formData: FormData,
+  formData: FormData
 ) => {
   try {
-    const { password } = passwordResetSchema.parse(
-      Object.fromEntries(formData),
-    );
+    const { password } = passwordResetSchema.parse({
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
 
     const tokenHash = hashToken(tokenId);
 
@@ -62,19 +62,17 @@ export const passwordReset = async (
       return toActionState(
         "ERROR",
         "Expired or invalid verification token",
-        formData,
+        formData
       );
     }
 
     await prisma.session.deleteMany({
-      where: {
-        userId: passwordResetToken.userId,
-      },
+      where: { userId: passwordResetToken.userId },
     });
 
     const passwordHash = await hashPassword(password);
 
-    const user = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: passwordResetToken.userId,
       },
@@ -82,16 +80,10 @@ export const passwordReset = async (
         passwordHash,
       },
     });
-
-    await createNewSession(user.id);
   } catch (error) {
     return fromErrorToActionState(error, formData);
   }
 
-  await setCookieByKey(
-    "toast",
-    "Your password has been reset and you’re now signed in.",
-  );
-
-  redirect(ticketsPath());
+  await setCookieByKey("toast", "Successfully reset password");
+  redirect(signInPath());
 };

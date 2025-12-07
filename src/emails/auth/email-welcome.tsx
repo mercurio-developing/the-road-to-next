@@ -9,12 +9,12 @@ import {
   Tailwind,
 } from "@react-email/components";
 
-type EmailPasswordResetProps = {
+type EmailWelcomeProps = {
   toName: string;
-  url: string;
+  loginUrl: string;
 };
 
-const EmailPasswordReset = ({ toName, url }: EmailPasswordResetProps) => {
+const EmailWelcome = ({ toName, loginUrl }: EmailWelcomeProps) => {
   return (
     <Html>
       <Head />
@@ -23,17 +23,16 @@ const EmailPasswordReset = ({ toName, url }: EmailPasswordResetProps) => {
           <Container>
             <Section>
               <Text className="text-xl">
-                Hi {toName},
+                Hi {toName}, welcome to TicketBounty!
               </Text>
               <Text className="text-gray-700">
-                You requested a password reset. Click the button below to set a
-                new password. If you didn’t request this, you can safely ignore
-                this email.
+                We’re excited to have you on board. Let us know if you ever have
+                questions!
               </Text>
             </Section>
             <Section className="mt-4">
-              <Button href={url} className="bg-black rounded text-white p-2 m-2">
-                Reset Password
+              <Button href={loginUrl} className="bg-black rounded text-white p-2 m-2">
+                Get Started
               </Button>
             </Section>
           </Container>
@@ -43,9 +42,9 @@ const EmailPasswordReset = ({ toName, url }: EmailPasswordResetProps) => {
   );
 };
 
-EmailPasswordReset.PreviewProps = {
+EmailWelcome.PreviewProps = {
   toName: "Jane Doe",
-  url: "http://localhost:3000/password-reset/example-token",
-}
+  loginUrl: "http://localhost:3000/sign-in",
+};
 
-export default EmailPasswordReset;
+export default EmailWelcome;

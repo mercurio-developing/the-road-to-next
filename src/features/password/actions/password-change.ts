@@ -11,7 +11,7 @@ import { signInPath } from "@/paths";
 import {
   hashPassword,
   verifyPasswordHash,
-} from "@/features/password/utils/hast-and-verify";
+} from "@/features/password/utils/hash-and-verify";
 import { prisma } from "@/lib/prisma";
 import { createNewSession} from "@/lib/lucia";
 

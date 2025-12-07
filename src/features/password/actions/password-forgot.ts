@@ -9,6 +9,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { User } from ".prisma/client";
 import { generatePasswordResetLink } from "@/features/password/utils/generate-password-reset-link";
+import { sendEmailPasswordReset } from "@/features/password/emails/send-email-password-reset";
 
 const passwordForgotSchema = z.object({
   email: z.email().min(1, { message: "Is required" }).max(191),
@@ -32,7 +33,7 @@ export const passwordForgot = async (
 
     const passwordResetLink = await generatePasswordResetLink(user.id)
 
-    console.log(passwordResetLink,"PRINT")
+    await sendEmailPasswordReset(user.username,user.email,passwordResetLink)
 
   } catch (error) {
     return fromErrorToActionState(error, formData);
