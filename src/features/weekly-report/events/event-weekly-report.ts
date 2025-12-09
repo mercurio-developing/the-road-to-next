@@ -14,11 +14,11 @@ export const weeklyReportFunction = inngest.createFunction(
     const result = await step.run("generate-weekly-digest", async () => {
       const { startUtc, endUtc } = getThisFridayWindow();
 
-      const [usersCount, commentsCount] = await Promise.all([
+      const [usersCount, ticketsCount] = await Promise.all([
         prisma.user.count({
           where: { createdAt: { gte: startUtc, lt: endUtc } },
         }),
-        prisma.comment.count({
+        prisma.ticket.count({
           where: { createdAt: { gte: startUtc, lt: endUtc } },
         }),
       ]);
@@ -26,14 +26,14 @@ export const weeklyReportFunction = inngest.createFunction(
       await sendWeeklyDigestEmail(
         "orqodev@gmail.com",
         usersCount,
-        commentsCount,
+        ticketsCount,
         startUtc,
         endUtc,
       );
 
       return {
         window: { startUtc, endUtc },
-        counts: { users: usersCount, comments: commentsCount },
+        counts: { users: usersCount, tickets: ticketsCount },
       };
     });
     return { ok: true, ...result };

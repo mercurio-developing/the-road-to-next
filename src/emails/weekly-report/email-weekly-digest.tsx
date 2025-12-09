@@ -1,7 +1,6 @@
 import {
   Html,
   Head,
-  Preview,
   Body,
   Container,
   Section,
@@ -16,14 +15,14 @@ type EmailWeeklyDigestProps = {
   periodStartUtc: string | Date;
   periodEndUtc: string | Date;
   usersCount: number;
-  commentsCount: number;
+  ticketsCount: number;
 };
 
 const EmailWeeklyDigest = ({
   periodStartUtc,
   periodEndUtc,
   usersCount,
-  commentsCount,
+  ticketsCount,
 }: EmailWeeklyDigestProps) => {
 
   const start = new Date(periodStartUtc);
@@ -32,10 +31,6 @@ const EmailWeeklyDigest = ({
   return (
     <Html>
       <Head />
-      <Preview>
-        Weekly report: {`${usersCount} users and ${commentsCount}`}
-        comments
-      </Preview>
       <Tailwind>
         <Body className="bg-[#f6f9fc] p-6 m-0 font-sans">
           <Container className="bg-white rounded-lg p-6 border border-[#eaeaea]">
@@ -54,7 +49,7 @@ const EmailWeeklyDigest = ({
                 New users: <strong>{usersCount}</strong>
               </Text>
               <Text>
-                New comments: <strong>{commentsCount}</strong>
+                New tickets: <strong>{ticketsCount}</strong>
               </Text>
               <Hr className="my-4 border-[#eaeaea]" />
               <Text className="text-[#666] text-[12px]">
@@ -72,7 +67,7 @@ EmailWeeklyDigest.PreviewProps = {
   periodStartUtc: Date.now() - 7 * 24 * 60 * 60 * 1000,
   periodEndUtc: Date.now(),
   usersCount: 5,
-  commentsCount: 5,
+  ticketsCount: 5,
 };
 
 export default EmailWeeklyDigest;
