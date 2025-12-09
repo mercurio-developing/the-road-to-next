@@ -1,6 +1,3 @@
-// src/features/report/utils/get-this-friday-window.ts
-import { addDays } from "date-fns";
-
 const LIMA_OFFSET_MINUTES = 5 * 60; // UTC-5
 
 export function getThisFridayWindow(now: Date = new Date()) {
