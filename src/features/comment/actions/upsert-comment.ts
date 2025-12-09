@@ -6,7 +6,7 @@ import {
   toActionState,
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { signInPath, ticketPath } from "@/paths";
+import {  ticketPath } from "@/paths";
 import { prisma } from "@/lib/prisma";
 import { isOwner } from "@/features/auth/utils/is-owner";
 import { z } from "zod";
@@ -22,7 +22,7 @@ export const upsertComment = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  const { user } = await getAuthOrRedirect(signInPath());
+  const { user } = await getAuthOrRedirect();
 
   const ticketId = formData.get("ticketId")?.toString();
 

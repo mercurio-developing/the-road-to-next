@@ -7,7 +7,6 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { z } from "zod";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { signInPath } from "@/paths";
 import {
   hashPassword,
   verifyPasswordHash,
@@ -36,7 +35,7 @@ export const passwordChange = async (
   formData: FormData,
 ) => {
   try {
-    const auth = await getAuthOrRedirect(signInPath());
+    const auth = await getAuthOrRedirect();
 
     const { password, newPassword } = passwordChangeSchema.parse(
       Object.fromEntries(formData),

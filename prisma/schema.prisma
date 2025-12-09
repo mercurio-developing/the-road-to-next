@@ -45,8 +45,8 @@ model EmailVerificationToken {
   code      String
   expiresAt DateTime
   email     String
-  userId String
-  user   User      @relation(fields:[userId],references:[id],onDelete:Cascade)
+  userId    String
+  user      User      @relation(fields:[userId],references:[id],onDelete:Cascade)
 
   @@index([userId])
 }

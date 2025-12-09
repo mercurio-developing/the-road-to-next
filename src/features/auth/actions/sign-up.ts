@@ -4,6 +4,7 @@ import { z } from "zod";
 import {
   ActionState,
   fromErrorToActionState,
+  toActionState,
 } from "@/components/form/utils/to-action-state";
 import { prisma } from "@/lib/prisma";
 import { setCookieByKey } from "@/actions/cookies";
@@ -14,6 +15,8 @@ import { setSessionCookie } from "../utils/session-cookie";
 import { createSession } from "@/lib/lucia";
 import { hashPassword } from "@/features/password/utils/hash-and-verify";
 import { inngest } from "@/lib/inngest";
+import { Prisma } from ".prisma/client";
+import { generateEmailVerificationCode } from "@/features/auth/utils/generate-email-verification-code";
 
 const signUpSchema = z
   .object({
@@ -57,14 +60,20 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       },
     });
 
+    const verificationCode = await generateEmailVerificationCode(
+      user.id,
+      user.email,
+    );
+
     const sessionToken = generateRandomToken();
     const session = await createSession(sessionToken, user.id);
 
     await setSessionCookie(sessionToken, session.expiresAt);
 
     await inngest.send({
-      name: "app/signup.verify-account",
+      name: "app/signup.email-verification",
       data: {
+        code: verificationCode,
         user: {
           firstName: user.firstName,
           lastName: user.lastName,
@@ -75,6 +84,17 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       },
     });
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return toActionState(
+        "ERROR",
+        "Either email or username is already in use",
+        formData,
+      );
+    }
+
     return fromErrorToActionState(error, formData);
   }
   await setCookieByKey("toast", "Sign up successful");

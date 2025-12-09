@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { signInPath, ticketsPath } from "@/paths";
+import {  ticketsPath } from "@/paths";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
@@ -27,7 +27,7 @@ export const upsertTicket = async (
   _actionState: ActionState,
   formData: FormData,
 ) => {
-  const { user } = await getAuthOrRedirect(signInPath());
+  const { user } = await getAuthOrRedirect();
 
   try {
     if (id) {

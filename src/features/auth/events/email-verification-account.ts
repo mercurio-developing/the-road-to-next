@@ -2,10 +2,10 @@ import { inngest } from "@/lib/inngest";
 import { sendEmailWelcome } from "@/features/auth/emails/send-email-welcome";
 import { signInPath } from "@/paths";
 import { sendEmailVerifyAccount } from "@/features/auth/emails/send-email-verify-account";
-import { generateEmailVerificationLink } from "@/features/auth/utils/generate-verification-token-link";
 
-export type VerifyAccountFunctionArgs = {
+export type EmailVerificationFunctionArgs = {
   data: {
+    code: string;
     user: {
       firstName: string;
       lastName: string;
@@ -16,23 +16,15 @@ export type VerifyAccountFunctionArgs = {
   };
 };
 
-export const verifyAccountFunction = inngest.createFunction(
-  { id: "send-verify-account" },
-  { event: "app/signup.verify-account" },
+export const emailVerificationFunction = inngest.createFunction(
+  { id: "signup-email-verification" },
+  { event: "app/signup.email-verification" },
   async ({ event, step }) => {
     await step.run("send-email-verify-account", async () => {
-      const { email, username, userId } = event.data.user;
+      const { email, username } = event.data.user;
+      const { code } = event.data;
 
-      const emailVerificationLink = await generateEmailVerificationLink(
-        userId,
-        email,
-      );
-
-      const result = await sendEmailVerifyAccount(
-        username,
-        email,
-        emailVerificationLink,
-      );
+      const result = await sendEmailVerifyAccount(username, email, code);
       if (result.error) {
         throw new Error(`${result.error.name}:${result.error.message}`);
       }

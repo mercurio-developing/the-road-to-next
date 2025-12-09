@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { signInPath, ticketPath } from "@/paths";
+import {  ticketPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import {
   ActionState,
@@ -12,7 +12,7 @@ import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect"
 import { isOwner } from "@/features/auth/utils/is-owner";
 
 export const deleteComment = async (id: string,ticketId:string): Promise<ActionState> => {
-  const { user }  = await getAuthOrRedirect(signInPath());
+  const { user }  = await getAuthOrRedirect();
 
   try {
     if (!id) {

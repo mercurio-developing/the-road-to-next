@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { signInPath, ticketsPath } from "@/paths";
+import {  ticketsPath } from "@/paths";
 import { revalidatePath } from "next/cache";
 import { setCookieByKey } from "@/actions/cookies";
 import {
@@ -14,7 +14,7 @@ import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect"
 import { isOwner } from "@/features/auth/utils/is-owner";
 
 export const deleteTicket = async (id: string): Promise<ActionState> => {
-  const { user }  = await getAuthOrRedirect(signInPath());
+  const { user }  = await getAuthOrRedirect();
 
   try {
     if (!id) {

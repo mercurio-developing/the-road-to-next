@@ -3,7 +3,7 @@
 import { TicketStatus } from ".prisma/client";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { signInPath, ticketsPath } from "@/paths";
+import { ticketsPath } from "@/paths";
 import {
   fromErrorToActionState,
   toActionState,
@@ -12,7 +12,7 @@ import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect"
 import { isOwner } from "@/features/auth/utils/is-owner";
 
 export const updateTicketStatus = async (id: string, status: TicketStatus) => {
-  const { user }  = await getAuthOrRedirect(signInPath());
+  const { user }  = await getAuthOrRedirect();
 
   try {
     if (!id) {
