@@ -10,5 +10,7 @@ export const passwordForgotPath = () => "/password-forgot"
 
 export const passwordResetPath = ()=> "/password-reset"
 
+export const verifyAccountPath = ()=>"/verify-account"
+
 export const accountProfilePath = ()=> "/account/profile";
 export const accountPasswordPath = () => "/account/password"

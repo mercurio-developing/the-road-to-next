@@ -63,8 +63,16 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
     await setSessionCookie(sessionToken, session.expiresAt);
 
     await inngest.send({
-      name: "app/signup.signup-welcome",
-      data: { user: {firstName,lastName,email} },
+      name: "app/signup.verify-account",
+      data: {
+        user: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          userId: user.id,
+          username: user.username,
+        },
+      },
     });
   } catch (error) {
     return fromErrorToActionState(error, formData);

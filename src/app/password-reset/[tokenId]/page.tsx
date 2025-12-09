@@ -7,7 +7,6 @@ type PasswordResetFormProps = {
 
 const PasswordResetPage = async ({ params }: PasswordResetFormProps) => {
   const { tokenId } = await params;
-  console.log("TEST")
   return (
     <div className="flex-1 flex flex-col justify-start items-center mt-[20vh]">
       <CardCompact

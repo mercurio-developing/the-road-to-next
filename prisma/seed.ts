@@ -4,8 +4,20 @@ import { hash } from "@node-rs/argon2";
 const prisma = new PrismaClient();
 
 const users = [
-  { username: "admin", email: "admin@gmail.com", firstName:"Alejandro", lastName:"Fidanza" },
-  { username: "orqodev", email: "orqodev@gmail.com",firstName:"Alejandro", lastName:"Fidanza"},
+  {
+    username: "admin",
+    email: "admin@gmail.com",
+    firstName: "Alejandro",
+    lastName: "Fidanza",
+    emailVerified: true,
+  },
+  {
+    username: "orqodev",
+    email: "orqodev@gmail.com",
+    firstName: "Alejandro",
+    lastName: "Fidanza",
+    emailVerified: false,
+  },
 ];
 
 const tickets = [
@@ -60,9 +72,8 @@ const comments = [
   },
 ];
 
-const getRandomNumber = (maxNumber: number):number => {
-  return Math.floor(Math.random() * (maxNumber + 1))
-
+const getRandomNumber = (maxNumber: number): number => {
+  return Math.floor(Math.random() * (maxNumber + 1));
 };
 
 const seed = async () => {
@@ -75,7 +86,7 @@ const seed = async () => {
 
   const dbUsers = await prisma.user.createManyAndReturn({
     data: users.map((user) => ({ ...user, passwordHash })),
-  })
+  });
 
   const dbTickets = await prisma.ticket.createManyAndReturn({
     data: tickets.map((ticket) => ({
