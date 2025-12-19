@@ -4,6 +4,7 @@ import { passwordResetFunction } from "@/features/password/events/event-password
 import { signupWelcomeFunction } from "@/features/auth/events/event-signup";
 import { weeklyReportFunction } from "@/features/weekly-report/events/event-weekly-report";
 import { emailVerificationFunction } from "@/features/auth/events/event-email-verification";
+import { updateProfileFunction } from "@/features/profile/events/event-update-profile";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
@@ -12,5 +13,6 @@ export const { GET, POST, PUT } = serve({
     emailVerificationFunction,
     signupWelcomeFunction,
     weeklyReportFunction,
+    updateProfileFunction,
   ],
 });

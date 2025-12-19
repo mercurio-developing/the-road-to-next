@@ -23,11 +23,8 @@ export const passwordResetFunction = inngest.createFunction(
       },
     });
 
-    console.log(user,"TEST")
-
     const passwordResetLink = await generatePasswordResetLink(user.id)
 
-    console.log(passwordResetLink,"PRINT")
     const result = await sendEmailPasswordReset(user.username,user.email,passwordResetLink)
 
     if (result.error){
