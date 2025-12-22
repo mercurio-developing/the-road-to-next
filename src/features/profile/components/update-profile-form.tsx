@@ -81,8 +81,8 @@ const UpdateProfileForm = ({ user }: UpdateProfileProps) => {
         {emailChanged ? (
           <ConfirmDialogWithCode
             trigger={
-              <Button type="button" className="w-full">
-                Update Profile
+              <Button type="button" className="w-full" disabled={isUpdating}>
+                {isUpdating ? "Updating..." : "Update Profile"}
               </Button>
             }
             title="Verify your new email"
