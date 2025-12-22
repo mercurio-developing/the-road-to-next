@@ -101,14 +101,13 @@ const UpdateProfileForm = ({ user }: UpdateProfileProps) => {
               formData.set("email", email);
               return await verifyEmailCode(prevState, formData);
             }}
-            onSuccessAction={(code) => {
+            onSuccessAction={() => {
               // Build FormData and submit to server action
               const fd = new FormData();
               fd.set("firstName", firstName);
               fd.set("lastName", lastName);
               fd.set("username", username);
               fd.set("email", email);
-              fd.set("code", code);
               startTransition(() => {
                 formAction(fd);
               });

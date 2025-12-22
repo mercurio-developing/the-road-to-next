@@ -20,7 +20,7 @@ export const sendEmailVerificationCode = async (
   try {
     const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
 
-    const { email } = await sendProfileEmailVerificationSchema.parseAsync(
+    const { email } = sendProfileEmailVerificationSchema.parse(
       Object.fromEntries(formData),
     );
 

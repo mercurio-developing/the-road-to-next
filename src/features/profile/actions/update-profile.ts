@@ -10,7 +10,6 @@ import { prisma } from "@/lib/prisma";
 import { setCookieByKey } from "@/actions/cookies";
 import { Prisma } from ".prisma/client";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
-import { validateEmailVerificationCode } from "@/features/auth/utils/validate-email-verification-code";
 
 // Schema for updating profile
 const updateProfileSchema = z.object({
@@ -25,7 +24,6 @@ const updateProfileSchema = z.object({
       "Username cannot contain spaces",
     ),
   email: z.email().min(1, { message: "Is Required" }).max(191),
-  code: z.string().optional(),
 });
 
 export const updateProfile = async (
@@ -35,43 +33,39 @@ export const updateProfile = async (
   const { user } = await getAuthOrRedirect({ checkEmailVerified: false });
 
   try {
-    const { username, email, firstName, lastName, code } =
+    const { username, email, firstName, lastName } =
       await updateProfileSchema.parseAsync(Object.fromEntries(formData));
 
     const emailChanged = email !== user.email;
 
-    // If email changed, code is REQUIRED
-    if (emailChanged && !code) {
-      return toActionState(
-        "ERROR",
-        "Verification code is required when changing email",
-        formData,
-      );
-    }
+    // If email changed, verify that it was verified through the dialog
+    if (emailChanged) {
+      // Check for a recently verified email token (within last 5 minutes)
+      const verifiedToken = await prisma.emailVerificationToken.findFirst({
+        where: {
+          userId: user.id,
+          email,
+          verifiedAt: {
+            not: null,
+            gte: new Date(Date.now() - 5 * 60 * 1000), // 5 minutes
+          },
+        },
+      });
 
-    // Validate code if email changed
-    if (emailChanged && code) {
-      if (code.length !== 8) {
+      if (!verifiedToken) {
         return toActionState(
           "ERROR",
-          "Verification code must be 8 characters",
+          "Email must be verified before updating. Please use the verification dialog.",
           formData,
         );
       }
 
-      const validCode = await validateEmailVerificationCode(
-        user.id,
-        email,
-        code,
-      );
-
-      if (!validCode) {
-        return toActionState(
-          "ERROR",
-          "Invalid or expired verification code",
-          formData,
-        );
-      }
+      // Delete the used token
+      await prisma.emailVerificationToken.delete({
+        where: {
+          id: verifiedToken.id,
+        },
+      });
     }
 
     // Update profile

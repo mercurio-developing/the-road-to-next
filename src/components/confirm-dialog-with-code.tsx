@@ -50,6 +50,7 @@ export const ConfirmDialogWithCode = ({
 }: ConfirmDialogWithCodeProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [codeSent, setCodeSent] = useState(false);
+  const [code, setCode] = useState("");
 
   // Send code action state
   const [sendCodeState, sendCodeFormAction, isSendingCode] = useActionState(
@@ -101,6 +102,7 @@ export const ConfirmDialogWithCode = ({
     if (!open) {
       // Reset state when closing
       setCodeSent(false);
+      setCode("");
     }
     setIsOpen(open);
   };
@@ -176,7 +178,8 @@ export const ConfirmDialogWithCode = ({
               <InputOTP
                 name="code"
                 maxLength={8}
-                defaultValue={verifyCodeState.payload?.get("code") as string}
+                value={code}
+                onChange={(value) => setCode(value)}
               >
                 <InputOTPGroup>
                   {Array.from({ length: 8 }).map((_, index) => (

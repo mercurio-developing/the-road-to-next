@@ -8,6 +8,7 @@ import {
 } from "@/components/form/utils/to-action-state";
 import { getAuthOrRedirect } from "@/features/auth/queries/get-auth-or-redirect";
 import { validateEmailVerificationCode } from "@/features/auth/utils/validate-email-verification-code";
+import { prisma } from "@/lib/prisma";
 
 const verifyEmailCodeSchema = z.object({
   email: z.email(),
@@ -38,6 +39,18 @@ export const verifyEmailCode = async (
         formData,
       );
     }
+
+    // Mark email as verified - this allows updateProfile to confirm verification
+    await prisma.emailVerificationToken.updateMany({
+      where: {
+        userId: user.id,
+        email,
+        code,
+      },
+      data: {
+        verifiedAt: new Date(),
+      },
+    });
 
     return toActionState("SUCCESS", "Email verified successfully", formData);
   } catch (error) {
